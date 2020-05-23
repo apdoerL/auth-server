@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.security.Principal;
 
 /**
- * @author Li
+ * @author apdoer
  * @version 1.0
  * @date 2020/5/22 9:56
  */

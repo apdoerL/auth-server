@@ -53,7 +53,7 @@ public class ExtRedisTokenStore extends RedisTokenStore {
         byte[] serializedAuth = serialize(authentication);
         byte[] accessKey = serializeKey(ACCESS + token.getValue());
         byte[] authKey = serializeKey(AUTH + token.getValue());
-        byte[] authToAccessKey = serializeKey(AUTH_TO_ACCESS + authenticationKeyGenerator.extractKey(authentication)));
+        byte[] authToAccessKey = serializeKey(AUTH_TO_ACCESS + authenticationKeyGenerator.extractKey(authentication));
         byte[] approvalkey = serializeKey(UNAME_TO_ACCESS + getApprovalKey(authentication));
         byte[] clientId = serializeKey(CLIENT_ID_TO_ACCESS + authentication.getOAuth2Request().getClientId());
 

@@ -1,0 +1,19 @@
+server:
+  port: 9999
+spring:
+  cloud:
+    config:
+      name: auth-server
+      uri: http://localhost:9090
+      profile: dev
+      label: dev
+      discovery:
+        enabled: true
+        service-id: config-server
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
