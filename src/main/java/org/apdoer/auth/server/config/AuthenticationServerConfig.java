@@ -16,6 +16,9 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * </?>@RefreshScope</> 配置文件自动刷新
  * </>@EnableAuthorizationServer</>配置成授权服务器
@@ -29,7 +32,7 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
 @Configuration
 public class AuthenticationServerConfig extends AuthorizationServerConfigurerAdapter {
 
-    @Autowired(required = false)
+    @Autowired
     private AuthenticationManager authenticationManager;
 
     @Autowired
@@ -44,6 +47,7 @@ public class AuthenticationServerConfig extends AuthorizationServerConfigurerAda
     @Value("${oauth2.refresh-token.validity-seconds:2592000}")
     private Integer refreshTokenExpire;
 
+    private List<String> allowClients = Arrays.asList("login-server");
 
     @Bean
     public RedisTokenStore redisTokenStore() {
@@ -54,7 +58,9 @@ public class AuthenticationServerConfig extends AuthorizationServerConfigurerAda
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security
                 .tokenKeyAccess("permitAll()")
-                .checkTokenAccess("isAuthenticated");
+//                .checkTokenAccess("isAuthenticated")
+                .checkTokenAccess("permitAll()")
+        .allowFormAuthenticationForClients();
     }
 
     @Override
@@ -70,10 +76,13 @@ public class AuthenticationServerConfig extends AuthorizationServerConfigurerAda
         clients
                 .inMemory()
                 .withClient("webapp")
+                //此处的scopes是无效的,可以随便设置
                 .scopes("xx")
                 .secret("webapp")
-                .authorizedGrantTypes("password", "refresh_token")
+                .resourceIds(String.valueOf(allowClients))
+                .authorizedGrantTypes("password", "refresh_token","client_credentials ","authorization_code ")
                 .accessTokenValiditySeconds(accessTokenExpire)
                 .refreshTokenValiditySeconds(refreshTokenExpire);
     }
+
 }

@@ -30,7 +30,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(
                         "/getUser",
-                        "pauth/token",
+                        "oauth/token",
+                        "username/token",
                         "refresh").permitAll()
                 .anyRequest().authenticated()
                 .and()

@@ -31,7 +31,7 @@ public class UserController {
     @GetMapping("/userInfo")
     public UserPo getUserInfo(Principal user) {
         UserPo userPo = userService.getUserByUsername(user.getName());
-        if (userPo == null || userPo.getEnabled() != UserEnabledStatusEnum.ENABLED.getCode()) {
+        if (userPo == null || !userPo.getEnabled().equals(UserEnabledStatusEnum.ENABLED.getCode())) {
             log.error("");
             return null;
         } else {
